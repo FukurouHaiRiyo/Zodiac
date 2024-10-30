@@ -1,101 +1,111 @@
-import Image from "next/image";
+'use client';
+import Header from '@/components/Header';
+import { useState, useEffect } from 'react';
+
+interface HoroscopeData {
+  sign: string;
+  date: string;
+  horoscope: string;
+}
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  // State to control navigation dropdown for mobile view
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const zodiacSigns = [
+    'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
+    'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces',
+  ];
+
+  const [horoscopeData, setHoroscopeData] = useState<HoroscopeData[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchHoroscopeData = async () => {
+      try {
+        const data: HoroscopeData[] = await Promise.all(
+          zodiacSigns.map(async (sign) => {
+            const response = await fetch(
+              `https://horoscope19.p.rapidapi.com/get-horoscope/daily?sign=${sign}&day=today`,
+              {
+                method: 'GET',
+                headers: {
+                  'x-rapidapi-key': '1591618643mshd45411114ae3579p181d33jsn4a85dd05e1ea',
+                  'x-rapidapi-host': 'horoscope19.p.rapidapi.com',
+                },
+              }
+            );
+            const result = await response.json();
+            console.log(result);
+            return {
+              sign,
+              date: result.data.date,
+              horoscope: result.data.horoscope_data,
+            };
+          })
+        );
+        setHoroscopeData(data);
+      } catch (error) {
+        console.error('Error fetching horoscope data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHoroscopeData();
+  }, []);
+
+  return (
+    <div className='bg-white min-h-screen'>
+      {/* Header with state for navigation toggle */}
+      <Header state={isNavOpen} setState={setIsNavOpen} />
+
+      {/* Hero Section */}
+      <section className='relative'>
+        <div className='relative z-10 max-w-screen-xl mx-auto px-4 py-28 md:px-8'>
+          <div className='space-y-5 max-w-4xl mx-auto text-center'>
+            <h2 className='text-4xl text-black font-extrabold mx-auto md:text-5xl'>
+              Bun venit la AstroSphere! 🌌✨
+            </h2>
+
+            <p className='max-w-2xl mx-auto text-gray-600'>
+              Pe AstroSphere, descoperiți trăsăturile unice ale fiecărui semn zodiacal, obțineți îndrumări despre dragoste, carieră și finanțe și obțineți informații despre punctele voastre celesti.
+            </p>
+
+            
+
+            <form
+              onSubmit={(e) => e.preventDefault()}
+              className='justify-center items-center gap-x-3 sm:flex'
+            >
+              <input
+                type='text'
+                placeholder='Enter your email'
+                className='w-full px-3 py-2.5 text-black bg-gray-200 focus:bg-gray-300 duration-150 outline-none rounded-lg shadow sm:max-w-sm sm:w-auto'
+              />
+
+              <button className='flex items-center gap-x-2 py-2.5 px-4 mt-3 w-full text-sm text-white font-medium bg-sky-500 hover:bg-sky-400 active:bg-sky-600 duration-150 rounded-lg sm:mt-0 sm:w-auto'>
+                Abonare newsletter
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='w-5 h-5'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z'
+                    clipRule='evenodd'
+                  />
+                </svg>
+              </button>
+            </form>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        {/* Background Gradient */}
+        <div className='absolute inset-0 m-auto max-w-xs h-[357px] blur-[118px] sm:max-w-md md:max-w-lg' style={{ background: 'linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)' }}></div>
+      </section>
     </div>
   );
 }
