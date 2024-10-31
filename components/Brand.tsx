@@ -5,7 +5,7 @@ const Brand: React.FC<SharedProps> = ({ state, setState}) => {
   return (
     <div className='flex items-center justify-between py-5 md:block'>
       <a href='/'>
-        <img src='https://www.floatui.com/dark-logo.svg' width={120} height={50} alt='logo' />
+        <img src='image.png' width={120} height={50} alt='logo' />
       </a>
 
       <div className='md:hidden'>

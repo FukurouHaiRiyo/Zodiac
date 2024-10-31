@@ -75,7 +75,7 @@ const DailyHoroscopePage: React.FC = () => {
           ) : (
             <div className='mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4'>
               {horoscopeData.map((horoscope) => (
-                <div key={horoscope.sign} className='p-4 border rounded-lg shadow-lg bg-white'>
+                <div key={horoscope.sign} className='p-4 border rounded-lg shadow-lg'>
                   <h3 className='text-lg font-semibold capitalize text-gray-800'>{horoscope.sign}</h3>
                   <p className='text-gray-500 text-xs mb-2'>{horoscope.date}</p>
                   <p className='text-gray-600 text-sm'>{horoscope.horoscope}</p>

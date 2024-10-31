@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import Brand from './Brand';
+import React from 'react';
 import Navbar from './Navbar';
-import HoroscopeAPI from '@/app/scripts/Horoscope';
 
 interface HeaderProps {
   state: boolean;
@@ -10,7 +8,7 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ state, setState }) => {
   return (
-    <header className='relative z-20 bg-gray-200 text-black'>
+    <header className='relative z-20 bg-gray-100 text-black'>
       <Navbar state={state} setState={setState} />
     </header>
   );
