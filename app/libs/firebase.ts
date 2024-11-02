@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, set, push } from 'firebase/database';
+import { getDatabase } from 'firebase/database';
 import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId, appId, measurementId } from '../env';
 
 const firebaseConfig = {
