@@ -29,7 +29,7 @@ const DailyHoroscopePage: React.FC = () => {
         const data: HoroscopeData[] = await Promise.all(
           zodiacSigns.map(async (sign) => {
             const response = await fetch(
-              `https://horoscope19.p.rapidapi.com/get-horoscope/daily?sign=${sign}&day=today`,
+              `https://horoscope19.p.rapidapi.com/get-horoscope/weekly?sign=${sign}`,
               {
                 method: 'GET',
                 headers: {

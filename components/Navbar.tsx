@@ -11,7 +11,6 @@ const navigation = [
   { title: 'Horoscopul de azi', path: '/DailyHoroscope' },
   { title: 'Horoscop săptămânal', path: '/WeeklyHoroscope' },
   { title: 'Horoscopul lunar', path: '/MonthlyHoroscope' },
-  { title: 'Horoscop anual', path: '/YearlyHoroscope' }
 ];
 
 const Navbar: React.FC<NavbarProps> = ({state, setState}) => {

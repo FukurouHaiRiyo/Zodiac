@@ -23,13 +23,18 @@ const DailyHoroscopePage: React.FC = () => {
 
   const [horoscopeData, setHoroscopeData] = useState<HoroscopeData[]>([]);
 
+  // Function to limit text to 999 characters
+  const limitTextLength = (text: string, maxLength = 999): string => {
+    return text.length > maxLength ? text.slice(0, maxLength) : text;
+  };
+
   useEffect(() => {
     const fetchHoroscopeData= async () => {
       try {
         const data: HoroscopeData[] = await Promise.all(
           zodiacSigns.map(async (sign) => {
             const response = await fetch(
-              `https://horoscope19.p.rapidapi.com/get-horoscope/daily?sign=${sign}&day=today`,
+              `https://horoscope19.p.rapidapi.com/get-horoscope/monthly?sign=${sign}`,
               {
                 method: 'GET',
                 headers: {
@@ -39,7 +44,8 @@ const DailyHoroscopePage: React.FC = () => {
               }
             );
             const result = await response.json();
-            const translatedHoroscope = await translateTextMicrosoft(result.data.horoscope_data);
+            const limitedHoroscope = limitTextLength(result.data.horoscope_data);
+            const translatedHoroscope = await translateTextMicrosoft(limitedHoroscope);
             console.log(result);
             return {
               sign,
