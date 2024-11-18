@@ -4,6 +4,8 @@ import Header from '@/components/Header';
 import React, { useState, useEffect } from 'react';
 import translateTextMicrosoft from '../scripts/translate';
 
+import { XRapidAPiKey, XRapidApiHost } from '../env';
+
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 
@@ -34,12 +36,12 @@ const DailyHoroscopePage: React.FC = () => {
         const data: HoroscopeData[] = await Promise.all(
           zodiacSigns.map(async (sign) => {
             const response = await fetch(
-              `https://horoscope19.p.rapidapi.com/get-horoscope/monthly?sign=${sign}`,
+              `https://${XRapidApiHost}/get-horoscope/monthly?sign=${sign}`,
               {
                 method: 'GET',
                 headers: {
-                  'x-rapidapi-key': '1591618643mshd45411114ae3579p181d33jsn4a85dd05e1ea',
-                  'x-rapidapi-host': 'horoscope19.p.rapidapi.com',
+                  'x-rapidapi-key': XRapidAPiKey,
+                  'x-rapidapi-host': XRapidApiHost,
                 },
               }
             );

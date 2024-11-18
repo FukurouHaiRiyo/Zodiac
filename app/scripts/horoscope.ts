@@ -1,5 +1,7 @@
 import translateTextMicrosoft from "./translate";
 
+import { XRapidAPiKey, XRapidApiHost } from "../env";
+
 // Helper function for basic sentiment analysis
 const analyzeSentiment = (text: string) => {
   const loveKeywords = ['love', 'relationship', 'romantic', 'affection'];
@@ -45,12 +47,12 @@ export const fetchHoroscopeData = async () => {
     const data = await Promise.all(
       zodiacSigns.map(async (sign) => {
         const response = await fetch(
-          `https://horoscope19.p.rapidapi.com/get-horoscope/daily?sign=${sign}&day=today`,
+          `https://${XRapidApiHost}/get-horoscope/daily?sign=${sign}&day=today`,
           {
             method: 'GET',
             headers: {
-              'x-rapidapi-key': '1591618643mshd45411114ae3579p181d33jsn4a85dd05e1ea',
-              'x-rapidapi-host': 'horoscope19.p.rapidapi.com',
+              'x-rapidapi-key': XRapidAPiKey,
+              'x-rapidapi-host': XRapidApiHost,
             },
           }
         );

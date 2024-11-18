@@ -1,6 +1,4 @@
 'use client';
-import Features from '@/components/Features';
-import Header from '@/components/Header';
 import { useState, useEffect } from 'react';
 import { fetchHoroscopeData } from '@/app/scripts/horoscope';
 
