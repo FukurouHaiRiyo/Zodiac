@@ -1,6 +1,8 @@
 'use client';
 import Features from '@/components/Features';
 import Header from '@/components/Header';
+import LoveMoneyHealth from '@/components/LoveMoneyHealth';
+
 import { useState } from 'react';
 
 import { database } from '@/app/libs/firebase'; // import your Firebase setup
@@ -47,15 +49,18 @@ export default function Home() {
           <div className='relative z-10 max-w-screen-xl mx-auto px-4 py-20 md:px-8 text-center space-y-10'>
             <div className='max-w-4xl mx-auto'>
               <h2 className='text-4xl text-black font-extrabold md:text-5xl'>
-                Bun venit la AstroSphere! 🌌✨
+                Bun venit la ZodiacFast! 🌌✨
               </h2>
               <p className='max-w-2xl mx-auto text-gray-600'>
-                Pe AstroSphere, descoperiți trăsăturile unice ale fiecărui semn zodiacal, obțineți îndrumări despre dragoste, carieră și finanțe și obțineți informații despre punctele voastre celesti.
+                Pe ZodiacFast, descoperiți trăsăturile unice ale fiecărui semn zodiacal, obțineți îndrumări despre dragoste, carieră și finanțe și obțineți informații despre punctele voastre celesti.
               </p>
             </div>
 
             {/* Features Component */}
             <Features />
+
+            {/* Data about love, money and health */}
+            <LoveMoneyHealth />
 
             {/* Newsletter Subscription Form */}
             <form
