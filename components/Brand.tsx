@@ -1,12 +1,13 @@
 import { SharedProps } from '@/app/types/types';
+import Link from 'next/link';
 import React from 'react';
 
 const Brand: React.FC<SharedProps> = ({ state, setState}) => {
   return (
     <div className='flex items-center justify-between py-5 md:block'>
-      <a href='/'>
+      <Link href='/'>
         <img src='image.png' width={120} height={50} alt='logo' />
-      </a>
+      </Link>
 
       <div className='md:hidden'>
         <button className='menu-btn text-gray-900 hover:text-gray-800' onClick={() => setState(!state)}>

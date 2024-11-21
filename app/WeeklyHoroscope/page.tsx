@@ -67,7 +67,7 @@ const DailyHoroscopePage: React.FC = () => {
     <>
       <Header
         state={false}
-        setState={function (value: React.SetStateAction<boolean>): void {
+        setState={function (_value: React.SetStateAction<boolean>): void {
           throw new Error('Function not implemented.');
         }}
       />

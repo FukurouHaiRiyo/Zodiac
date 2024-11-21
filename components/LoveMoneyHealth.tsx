@@ -14,7 +14,21 @@ type HoroscopeData = {
   previousMoney?: number;
 };
 
-const zodiacImages: any = {
+type ZodiacSign =
+  | 'aries'
+  | 'taurus'
+  | 'gemini'
+  | 'cancer'
+  | 'leo'
+  | 'virgo'
+  | 'libra'
+  | 'scorpio'
+  | 'sagittarius'
+  | 'capricorn'
+  | 'aquarius'
+  | 'pisces';
+
+const zodiacImages: Record<ZodiacSign, string> = {
   aries: 'aries.png',
   taurus: 'taurus.png',
   gemini: 'gemini.png',
@@ -89,10 +103,10 @@ const LoveMoneyHealth = () => {
                 </div>
               </div>
 
-              
+
               {/* Zodiac Signs */}
               <div className="flex flex-col items-start space-y-6">
-                {Object.entries(zodiacImages).map(([sign, image]: any) => (
+                {Object.entries(zodiacImages as Record<ZodiacSign, string>).map(([sign, image]) => (
                   <div key={sign} className="flex items-center gap-4">
                     <img src={image} alt={sign} className="w-10 h-10" />
                     <span className="capitalize text-gray-700 text-lg">{sign}</span>
@@ -112,7 +126,7 @@ const LoveMoneyHealth = () => {
                     className="flex flex-col items-center bg-gray-100 p-6 rounded-lg shadow"
                   >
                     <img
-                      src={zodiacImages[data.sign]}
+                      src={zodiacImages[data.sign as ZodiacSign]}
                       alt={data.sign}
                       className="w-16 h-16"
                     />

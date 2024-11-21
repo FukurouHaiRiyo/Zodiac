@@ -1,4 +1,4 @@
-import translateTextMicrosoft from "./translate";
+// import translateTextMicrosoft from "./translate";
 
 import { XRapidApiKey, XRapidApiHost } from "@/app/env";
 
