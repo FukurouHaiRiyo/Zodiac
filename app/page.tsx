@@ -12,17 +12,28 @@ export default function Home() {
   // State to control navigation dropdown for mobile view
   const [isNavOpen, setIsNavOpen] = useState(false);
   const [email, setEmail] = useState('');
+  const [zodiacSign, setZodiacSign] = useState('aries');
+
+  const zodiacSignOptions = [
+    'Berbec', 'Taur', 'Gemeni', 'Rac',
+    'Leu', 'Fecioara', 'Balanta', 'Scorpion',
+    'Sagetator', 'Capricorn', 'Varsator', 'Pesti'
+  ]
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
-  const saveEmailToDatabase = async (email: string) => {
+  const handleZodiacChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setZodiacSign(e.target.value);
+  }
+
+  const saveEmailToDatabase = async (email: string, zodiacSign: string) => {
     try {
       const emailsRef = ref(database, 'newsletter_emails');
-      const newEmailRef = push(emailsRef);
-      await set(newEmailRef, { email });
-      console.log('Email saved successfully');
+      const newSubscriptionRef = push(emailsRef);
+      await set(newSubscriptionRef, { email, zodiacSign });
+      console.log('Email and zodiac sign saved successfully');
     } catch (error) {
       console.error('Error saving email:', error);
     }
@@ -32,7 +43,7 @@ export default function Home() {
     e.preventDefault();
 
     // Send the email to the database
-    await saveEmailToDatabase(email);
+    await saveEmailToDatabase(email, zodiacSign);
 
     // Optional: provide feedback to the user
     alert("You've successfully signed up for horoscope newsletters!");
@@ -76,6 +87,15 @@ export default function Home() {
                 placeholder='Introduceți adresa de email'
                 className='w-full px-4 py-2.5 text-black bg-gray-200 focus:bg-gray-300 duration-150 outline-none rounded-lg shadow sm:max-w-sm sm:w-auto'
               />
+
+              <select value={zodiacSign} onChange={handleZodiacChange} className='w-full px-4 py-2.5 text-black bg-gray-200 focus:bg-gray-300 duration-150 outline-none rounded-lg shadow sm:max-w-sm sm:w-auto'>
+                {zodiacSignOptions.map((sign) => (
+                  <option key={sign} value={sign}>
+                    {sign.charAt(0).toUpperCase() + sign.slice(1)}
+                  </option>
+                ))}
+              </select>
+
               <button className='flex items-center gap-x-2 py-2.5 px-4 mt-3 sm:mt-0 w-full sm:w-auto text-sm text-white font-medium bg-sky-500 hover:bg-sky-400 active:bg-sky-600 duration-150 rounded-lg'>
                 Abonare newsletter
                 <svg

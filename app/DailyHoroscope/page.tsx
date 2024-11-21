@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import React, { useState, useEffect } from 'react';
 import translateTextMicrosoft from '../scripts/translate';
 
-import { XRapidAPiKey, XRapidApiHost } from '../env';
+import { XRapidApiKey, XRapidApiHost } from '../env';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -35,7 +35,7 @@ const DailyHoroscopePage: React.FC = () => {
               {
                 method: 'GET',
                 headers: {
-                  'x-rapidapi-key': XRapidAPiKey,
+                  'x-rapidapi-key': XRapidApiKey,
                   'x-rapidapi-host': XRapidApiHost,
                 },
               }

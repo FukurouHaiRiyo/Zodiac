@@ -1,6 +1,6 @@
 import translateTextMicrosoft from "./translate";
 
-import { XRapidAPiKey, XRapidApiHost } from "../env";
+import { XRapidApiKey, XRapidApiHost } from "../env";
 
 // Helper function for basic sentiment analysis
 const analyzeSentiment = (text: string) => {
@@ -51,7 +51,7 @@ export const fetchHoroscopeData = async () => {
           {
             method: 'GET',
             headers: {
-              'x-rapidapi-key': XRapidAPiKey,
+              'x-rapidapi-key': XRapidApiKey,
               'x-rapidapi-host': XRapidApiHost,
             },
           }
