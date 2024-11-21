@@ -41,6 +41,7 @@ export class MailService {
     }
 
     async send({ to, subject, message }: ISendMail) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,
@@ -50,6 +51,7 @@ export class MailService {
             }
         });
 
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const mailOptions = {
             from: user,
             to,
