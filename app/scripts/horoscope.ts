@@ -1,6 +1,6 @@
 import translateTextMicrosoft from "./translate";
 
-import { XRapidApiKey, XRapidApiHost } from "../env";
+import { XRapidApiKey, XRapidApiHost } from "@/app/env";
 
 // Helper function for basic sentiment analysis
 const analyzeSentiment = (text: string) => {
