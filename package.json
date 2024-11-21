@@ -21,7 +21,6 @@
     "nodemailer": "^6.9.16",
     "react": "19.0.0-rc-69d4b800-20241021",
     "react-dom": "19.0.0-rc-69d4b800-20241021",
-    "react-translated": "^2.5.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {
