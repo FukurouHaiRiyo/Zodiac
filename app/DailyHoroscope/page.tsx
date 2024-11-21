@@ -4,7 +4,7 @@ import Header from '@/components/Header';
 import React, { useState, useEffect } from 'react';
 import translateTextMicrosoft from '../scripts/translate';
 
-import { XRapidApiKey, XRapidApiHost } from '../env';
+import { XRapidApiKey, XRapidApiHost } from '@/app/env';
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
