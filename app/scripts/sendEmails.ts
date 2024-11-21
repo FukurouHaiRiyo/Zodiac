@@ -41,7 +41,7 @@ export class MailService {
     }
 
     async send({ to, subject, message }: ISendMail) {
-        var transporter = nodemailer.createTransport({
+        const transporter = nodemailer.createTransport({
             host: 'smtp.gmail.com',
             port: 587,
             auth: {
