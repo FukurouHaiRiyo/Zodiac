@@ -50,19 +50,19 @@ export class MailService {
             }
         });
 
-        var mailOptions = {
+        const mailOptions = {
             from: user,
             to,
             subject,
             html: message,
         };
 
-        try {
-            await transporter.sendMail(mailOptions);
-            return true;
-        } catch (error) {
-            console.log("Error sending message");
-            return false;
-        }
+        // try {
+        //     await transporter.sendMail(mailOptions);
+        //     return true;
+        // } catch (error) {
+        //     console.log("Error sending message");
+        //     return false;
+        // }
     }
 }
