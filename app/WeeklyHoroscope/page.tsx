@@ -68,6 +68,7 @@ const DailyHoroscopePage: React.FC = () => {
       <Header
         state={false}
         setState={function (_: React.SetStateAction<boolean>): void {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           throw new Error('Function not implemented.');
         }}
       />

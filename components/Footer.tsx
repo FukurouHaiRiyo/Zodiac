@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const Footer = () => {
@@ -13,15 +14,13 @@ const Footer = () => {
           </h3>
 
           <ul className='space-y-2'>
-            <li><a href='/' className='hover:text-gray-400'>Acasă</a></li>
-            <li><a href='/features' className='hover:text-gray-400'>Funcționalități</a></li>
-            <li><a href='/pricing' className='hover:text-gray-400'>Prețuri</a></li>
-            <li><a href='/contact' className='hover:text-gray-400'>Contact</a></li>
+            <li><Link href='/' className='hover:text-gray-400'>Acasă</Link></li>
+            
           </ul>
         </div>
 
         {/* Social media */}
-        
+        {year}
       </div>
     </footer>
   )
