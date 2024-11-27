@@ -25,6 +25,11 @@ const DailyHoroscopePage: React.FC = () => {
 
   const [horoscopeData, setHoroscopeData] = useState<HoroscopeData[]>([]);
 
+  // Function to limit text to 999 characters
+  const limitTextLength = (text: string, maxLength = 500): string => {
+    return text.length > maxLength ? text.slice(0, maxLength) : text;
+  };
+
   useEffect(() => {
     const fetchHoroscopeData = async () => {
       try {
@@ -46,10 +51,12 @@ const DailyHoroscopePage: React.FC = () => {
             }
   
             const result = await response.json();
+            // Limit the length of the horoscope text
+            const limitedHoroscope = limitTextLength(result.data.horoscope_data);
   
             // Translate the horoscope text
             const translatedHoroscope = await translateTextMyMemory(
-              result.data.horoscope_data,
+              limitedHoroscope,
               'en', // Source language (English)
               'ro'  // Target language (Romanian)
             );
@@ -57,7 +64,7 @@ const DailyHoroscopePage: React.FC = () => {
             console.log(`Translated Weekly Horoscope for ${sign}:`, translatedHoroscope);
   
             // Simulate delay to avoid rate limits
-            await new Promise((resolve) => setTimeout(resolve, 200));
+            await new Promise((resolve) => setTimeout(resolve, 500));
   
             return {
               sign,
