@@ -2,7 +2,7 @@
 
 import Header from '@/components/Header';
 import React, { useState, useEffect } from 'react';
-import translateTextMicrosoft from '../scripts/translate';
+import translateTextMyMemory from '../scripts/translate';
 
 import { XRapidApiKey, XRapidApiHost } from '@/app/env';
 
@@ -26,7 +26,7 @@ const DailyHoroscopePage: React.FC = () => {
   const [horoscopeData, setHoroscopeData] = useState<HoroscopeData[]>([]);
 
   useEffect(() => {
-    const fetchHoroscopeData= async () => {
+    const fetchHoroscopeData = async () => {
       try {
         const data: HoroscopeData[] = await Promise.all(
           zodiacSigns.map(async (sign) => {
@@ -40,26 +40,41 @@ const DailyHoroscopePage: React.FC = () => {
                 },
               }
             );
+  
+            if (!response.ok) {
+              throw new Error(`Failed to fetch weekly horoscope for ${sign}`);
+            }
+  
             const result = await response.json();
-            const translatedHoroscope = await translateTextMicrosoft(result.data.horoscope_data);
-            console.log(result);
+  
+            // Translate the horoscope text
+            const translatedHoroscope = await translateTextMyMemory(
+              result.data.horoscope_data,
+              'en', // Source language (English)
+              'ro'  // Target language (Romanian)
+            );
+  
+            console.log(`Translated Weekly Horoscope for ${sign}:`, translatedHoroscope);
+  
+            // Simulate delay to avoid rate limits
+            await new Promise((resolve) => setTimeout(resolve, 200));
+  
             return {
               sign,
               date: result.data.date,
               horoscope: translatedHoroscope,
             };
-
-            await delay(200);
           })
         );
+  
         setHoroscopeData(data);
       } catch (error) {
-        console.error('Error fetching horoscope data:', error);
+        console.error('Error fetching or translating weekly horoscope data:', error);
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchHoroscopeData();
   }, []);
 

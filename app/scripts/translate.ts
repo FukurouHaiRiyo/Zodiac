@@ -1,22 +1,28 @@
-import { translateApi, translateHost } from "../env";
+const translateTextMyMemory = async (text: string, from: string, to: string): Promise<string> => {
+  try {
+    const response = await fetch(
+      `https://api.mymemory.translated.net/get?q=${encodeURIComponent(text)}&langpair=${from}|${to}`
+    );
 
-const translateTextMicrosoft = async (text: string): Promise<string> => {
-  const response = await fetch(
-    'https://microsoft-translator-text-api3.p.rapidapi.com/translate?to=ro&from=en&textType=plain',
-    {
-      method: 'POST',
-      headers: {
-        'x-rapidapi-key': translateApi,
-        'x-rapidapi-host': translateHost,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify([{ text }]),
+    if (!response.ok) {
+      throw new Error(`API request failed with status ${response.status}`);
     }
-  );
 
-  const data = await response.json();
-  console.log(data);
-  return data[0].translations[0].text;
+    const data = await response.json();
+
+    // MyMemory API response structure
+    const translatedText = data.responseData.translatedText;
+
+    if (!translatedText) {
+      throw new Error('No translation found in the API response.');
+    }
+
+    console.log(data); // Optional: Log the full response for debugging
+    return translatedText;
+  } catch (error) {
+    console.error('Error translating text:', error);
+    throw error; // Re-throw error to handle it upstream if needed
+  }
 };
 
-export default translateTextMicrosoft;
+export default translateTextMyMemory;
