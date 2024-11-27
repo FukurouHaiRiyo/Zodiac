@@ -6,9 +6,6 @@ import translateTextMyMemory from '../scripts/translate';
 
 import { XRapidApiKey, XRapidApiHost } from '@/app/env';
 
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-
 interface HoroscopeData {
   sign: string;
   date: string;
