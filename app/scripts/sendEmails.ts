@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-import { app_pass, XRapidApiKey, XRapidApiHost } from '@/app/env';
+import { XRapidApiKey, XRapidApiHost } from '@/app/env';
 
 interface ISendMail {
     to: string,
@@ -38,33 +38,5 @@ export class MailService {
             console.error(`Error fetching horoscope data for ${sign}:`, error);
             return 'Unable to retrieve horoscope data at the moment.';
         }
-    }
-
-    async send({ to, subject, message }: ISendMail) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            auth: {
-                user: user,
-                pass: app_pass,
-            }
-        });
-
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const mailOptions = {
-            from: user,
-            to,
-            subject,
-            html: message,
-        };
-
-        // try {
-        //     await transporter.sendMail(mailOptions);
-        //     return true;
-        // } catch (error) {
-        //     console.log("Error sending message");
-        //     return false;
-        // }
     }
 }
