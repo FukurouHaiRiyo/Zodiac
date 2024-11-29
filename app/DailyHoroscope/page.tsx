@@ -2,7 +2,7 @@
 
 import Header from '@/components/Header';
 import React, { useState, useEffect } from 'react';
-import translateTextMyMemory from '../scripts/translate';
+import translateTextMyMemory from '@/app/scripts/translateMyMemory';
 
 import { XRapidApiKey, XRapidApiHost } from '@/app/env';
 
@@ -28,43 +28,53 @@ const DailyHoroscopePage: React.FC = () => {
       try {
         const data: HoroscopeData[] = await Promise.all(
           zodiacSigns.map(async (sign) => {
-            const response = await fetch(
-              `https://${XRapidApiHost}/get-horoscope/daily?sign=${sign}&day=today`,
-              {
-                method: 'GET',
-                headers: {
-                  'x-rapidapi-key': XRapidApiKey,
-                  'x-rapidapi-host': XRapidApiHost,
-                },
+            try {
+              const response = await fetch(
+                `https://${XRapidApiHost}/get-horoscope/daily?sign=${sign}&day=today`,
+                {
+                  method: 'GET',
+                  headers: {
+                    'x-rapidapi-key': XRapidApiKey,
+                    'x-rapidapi-host': XRapidApiHost,
+                  },
+                }
+              );
+  
+              if (!response.ok) {
+                throw new Error(`Failed to fetch horoscope for ${sign}: ${response.statusText}`);
               }
-            );
-
-            if (!response.ok) {
-              throw new Error(`Failed to fetch horoscope for ${sign}`);
+  
+              const result = await response.json();
+  
+              // Translate the horoscope text
+              const translationResult = await translateTextMyMemory(
+                result.data.horoscope_data,
+                null,
+                'ro' // Target language (Romanian)
+              );
+  
+              // Handle both single and array responses from translateTextMyMemory
+              const translatedHoroscope = Array.isArray(translationResult)
+                ? translationResult.join(' ')
+                : translationResult;
+  
+              console.log(`Translated Horoscope for ${sign}:`, translatedHoroscope);
+  
+              // Simulate delay to avoid hitting rate limits
+              await new Promise((resolve) => setTimeout(resolve, 500));
+  
+              return {
+                sign,
+                date: result.data.date,
+                horoscope: translatedHoroscope,
+              };
+            } catch (error) {
+              console.error(`Error processing horoscope for ${sign}:`, error);
+              throw error;
             }
-
-            const result = await response.json();
-
-            // Translate the horoscope text
-            const translatedHoroscope = await translateTextMyMemory(
-              result.data.horoscope_data,
-              'en', // Source language (English)
-              'ro'  // Target language (Romanian)
-            );
-
-            console.log(`Translated Horoscope for ${sign}:`, translatedHoroscope);
-
-            // Simulate delay to avoid hitting rate limits
-            await new Promise((resolve) => setTimeout(resolve, 500));
-
-            return {
-              sign,
-              date: result.data.date,
-              horoscope: translatedHoroscope,
-            };
           })
         );
-
+  
         setHoroscopeData(data);
       } catch (error) {
         console.error('Error fetching or translating horoscope data:', error);
@@ -72,9 +82,10 @@ const DailyHoroscopePage: React.FC = () => {
         setLoading(false);
       }
     };
-
+  
     fetchHoroscopeData();
   }, []);
+  
 
 
   return (

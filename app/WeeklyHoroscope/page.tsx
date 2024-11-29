@@ -2,7 +2,7 @@
 
 import Header from '@/components/Header';
 import React, { useState, useEffect } from 'react';
-import translateTextMyMemory from '../scripts/translate';
+import translateTextMyMemory from '@/app/scripts/translateMyMemory';
 
 import { XRapidApiKey, XRapidApiHost } from '@/app/env';
 
@@ -32,42 +32,53 @@ const DailyHoroscopePage: React.FC = () => {
       try {
         const data: HoroscopeData[] = await Promise.all(
           zodiacSigns.map(async (sign) => {
-            const response = await fetch(
-              `https://${XRapidApiHost}/get-horoscope/weekly?sign=${sign}`,
-              {
-                method: 'GET',
-                headers: {
-                  'x-rapidapi-key': XRapidApiKey,
-                  'x-rapidapi-host': XRapidApiHost,
-                },
+            try {
+              const response = await fetch(
+                `https://${XRapidApiHost}/get-horoscope/weekly?sign=${sign}`,
+                {
+                  method: 'GET',
+                  headers: {
+                    'x-rapidapi-key': XRapidApiKey,
+                    'x-rapidapi-host': XRapidApiHost,
+                  },
+                }
+              );
+  
+              if (!response.ok) {
+                throw new Error(`Failed to fetch weekly horoscope for ${sign}: ${response.statusText}`);
               }
-            );
   
-            if (!response.ok) {
-              throw new Error(`Failed to fetch weekly horoscope for ${sign}`);
+              const result = await response.json();
+  
+              // Limit the length of the horoscope text
+              const limitedHoroscope = limitTextLength(result.data.horoscope_data);
+  
+              // Translate the limited horoscope text
+              const translationResult = await translateTextMyMemory(
+                limitedHoroscope,
+                'en', // Source language (English)
+                'ro'  // Target language (Romanian)
+              );
+  
+              // Handle both single and array responses from translateTextMyMemory
+              const translatedHoroscope = Array.isArray(translationResult)
+                ? translationResult.join(' ')
+                : translationResult;
+  
+              console.log(`Translated Weekly Horoscope for ${sign}:`, translatedHoroscope);
+  
+              // Simulate delay to avoid hitting rate limits
+              await new Promise((resolve) => setTimeout(resolve, 500));
+  
+              return {
+                sign,
+                date: result.data.date,
+                horoscope: translatedHoroscope,
+              };
+            } catch (error) {
+              console.error(`Error processing weekly horoscope for ${sign}:`, error);
+              throw error;
             }
-  
-            const result = await response.json();
-            // Limit the length of the horoscope text
-            const limitedHoroscope = limitTextLength(result.data.horoscope_data);
-  
-            // Translate the horoscope text
-            const translatedHoroscope = await translateTextMyMemory(
-              limitedHoroscope,
-              'en', // Source language (English)
-              'ro'  // Target language (Romanian)
-            );
-  
-            console.log(`Translated Weekly Horoscope for ${sign}:`, translatedHoroscope);
-  
-            // Simulate delay to avoid rate limits
-            await new Promise((resolve) => setTimeout(resolve, 500));
-  
-            return {
-              sign,
-              date: result.data.date,
-              horoscope: translatedHoroscope,
-            };
           })
         );
   
@@ -81,6 +92,7 @@ const DailyHoroscopePage: React.FC = () => {
   
     fetchHoroscopeData();
   }, []);
+  
 
   return (
     <>
@@ -95,7 +107,7 @@ const DailyHoroscopePage: React.FC = () => {
         <div className='relative z-10 max-w-screen-xl mx-auto px-4 py-28 md:px-8'>
           <div className='space-y-5 max-w-4xl mx-auto text-center'>
             <h2 className='text-4xl text-black font-extrabold mx-auto md:text-5xl'>
-              Horoscop zilnic pentru toate zodiile 🌌✨
+              Horoscop săptămânal pentru toate zodiile 🌌✨
             </h2>
             <p className='max-w-2xl mx-auto text-gray-600'>
               Descoperiți îndrumările cosmice de astăzi pentru fiecare semn zodiacal.
