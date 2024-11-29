@@ -1,6 +1,6 @@
 import nodemailer from 'nodemailer';
 
-import { user, app_pass, XRapidApiKey, XRapidApiHost } from '@/app/env';
+import { app_pass, XRapidApiKey, XRapidApiHost } from '@/app/env';
 
 interface ISendMail {
     to: string,
