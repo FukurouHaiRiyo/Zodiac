@@ -32,7 +32,7 @@ const Footer = () => {
       <div className='bg-gray-100 pt-2'>
         <div className='flex pb-5 px-3 m-auto pt-5 border-t text-gray-800 text-sm flex-col max-w-screen-lg items-center'>
           <div className='md:flex-auto md:flex-row-reverse mt-2 flex-row flex'>
-            <a href='/#' className='w-6 mx-1'>
+            <Link href='/#' className='w-6 mx-1'>
               <svg className='fill-current cursor-pointer text-gray-500 hover:text-indigo-600' width='100%' height='100%'
                 viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg'
                 xmlnsXlink='http://www.w3.org/1999/xlink' xmlSpace='preserve'
@@ -57,8 +57,8 @@ const Footer = () => {
                   6.007,-3.217 6.007,-6.008c0,-0.091 -0.002,-0.183 -0.006,-0.273c0.413,-0.298
                   0.771,-0.67 1.054,-1.093Z'></path>
               </svg>
-            </a>
-            <a href='/#' className='w-6 mx-1'>
+            </Link>
+            <Link href='/#' className='w-6 mx-1'>
               <svg className='fill-current cursor-pointer text-gray-500 hover:text-indigo-600' width='100%' height='100%'
                 viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg'
                 xmlnsXlink='http://www.w3.org/1999/xlink' xmlSpace='preserve'
@@ -74,8 +74,8 @@ const Footer = () => {
                   0.04,-0.648 0.646,-0.648l0.809,0l0,-1.616l-1.295,0c-1.555,0 -2.103,0.784
                   -2.103,2.102l0,0.97l-0.969,0l0,1.617l0.969,0l0,4.689l1.941,0l0,-4.689Z'></path>
               </svg>
-            </a>
-            <a href='/#' className='w-6 mx-1'>
+            </Link>
+            <Link href='/#' className='w-6 mx-1'>
               <svg className='fill-current cursor-pointer text-gray-500 hover:text-indigo-600' width='100%' height='100%'
                 viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg'
                 xmlnsXlink='http://www.w3.org/1999/xlink' xmlSpace='preserve'
@@ -103,8 +103,8 @@ const Footer = () => {
                      0.136,0.34c0.068,0.136 0,0.273 -0.136,0.341Z' style={{ fill: 'rgb(255, 255, 255)' }}></path>
                 </g>
               </svg>
-            </a>
-            <a href='/#' className='w-6 mx-1'>
+            </Link>
+            <Link href='/#' className='w-6 mx-1'>
               <svg className='fill-current cursor-pointer text-gray-500 hover:text-indigo-600' width='100%' height='100%'
                 viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg'
                 xmlnsXlink='http://www.w3.org/1999/xlink' xmlSpace='preserve'
@@ -129,8 +129,8 @@ const Footer = () => {
                   0.4,-1.5c0.3,-0.4 0.6,-0.5 1.1,-0.5c0.5,0 0.9,0.2 1.1,0.5c0.2,0.3 0.4,0.8
                   0.4,1.5l0,4.5l2.9,0Z'></path>
               </svg>
-            </a>
-            <a href='/#' className='w-6 mx-1'>
+            </Link>
+            <Link href='/#' className='w-6 mx-1'>
               <svg className='fill-current cursor-pointer text-gray-500 hover:text-indigo-600' width='100%' height='100%'
                 viewBox='0 0 24 24' version='1.1' xmlns='http://www.w3.org/2000/svg'
                 xmlnsXlink='http://www.w3.org/1999/xlink' xmlSpace='preserve'
@@ -147,7 +147,7 @@ const Footer = () => {
                   0.416,-0.145 0.416,-0.323l0,-6.422c0,-0.177 -0.213,-0.385
                   -0.416,-0.385l-0.519,0l0,-1.426l4.847,0l1.583,5.704l0.042,0l1.598,-5.704l5.021,0l0,1.426Z'></path>
               </svg>
-            </a>
+            </Link>
           </div>
           <div className='my-5'>© Copyright {year}. All Rights Reserved.</div>
         </div>
