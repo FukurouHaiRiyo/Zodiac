@@ -61,7 +61,7 @@ const DailyHoroscopePage: React.FC = () => {
               console.log(`Translated Horoscope for ${sign}:`, translatedHoroscope);
   
               // Simulate delay to avoid hitting rate limits
-              await new Promise((resolve) => setTimeout(resolve, 500));
+              await new Promise((resolve) => setTimeout(resolve, 1000));
   
               return {
                 sign,
