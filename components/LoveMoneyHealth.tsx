@@ -56,7 +56,7 @@ const LoveMoneyHealth = () => {
   const getIconForValue = (value: number) => {
     if (value > 0) return '⬆️'; // Arrow up
     if (value < 0) return '⬇️'; // Arrow down
-    return '➖'; // Equal (No change)
+    return '🟰'; // Equal (No change)
   };
 
   useEffect(() => {
@@ -98,7 +98,7 @@ const LoveMoneyHealth = () => {
                   <span>Decrease</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <span>➖</span>
+                  <span>🟰</span>
                   <span>No Change</span>
                 </div>
               </div>
@@ -109,7 +109,7 @@ const LoveMoneyHealth = () => {
                 {Object.entries(zodiacImages as Record<ZodiacSign, string>).map(([sign, image]) => (
                   <div key={sign} className="flex items-center gap-4">
                     <img src={image} alt={sign} className="w-10 h-10" />
-                    <span className="capitalize text-gray-700 text-lg">{sign}</span>
+                    <span className="capitalize text-gray-900 text-lg">{sign}</span>
                   </div>
                 ))}
               </div>
