@@ -110,7 +110,7 @@ const DailyHoroscopePage: React.FC = () => {
               Horoscop săptămânal pentru toate zodiile 🌌✨
             </h2>
             <p className='max-w-2xl mx-auto text-gray-600'>
-              Descoperiți îndrumările cosmice de astăzi pentru fiecare semn zodiacal.
+              Descoperiți îndrumările cosmice săptămânale pentru fiecare semn zodiacal.
             </p>
           </div>
 
