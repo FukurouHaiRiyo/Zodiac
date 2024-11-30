@@ -24,6 +24,7 @@
     "nodemailer": "^6.9.16",
     "react": "19.0.0-rc-69d4b800-20241021",
     "react-dom": "19.0.0-rc-69d4b800-20241021",
+    "react-social-icons": "^6.18.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {

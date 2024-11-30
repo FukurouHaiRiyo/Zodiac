@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import { database } from '@/app/libs/firebase'; // import your Firebase setup
 import { ref, set, push } from 'firebase/database';
+import Footer from '@/components/Footer';
 
 export default function Home() {
   // State to control navigation dropdown for mobile view
@@ -124,6 +125,8 @@ export default function Home() {
           ></div>
         </section>
       </div>
+
+      <Footer />
     </>
   );
 }
