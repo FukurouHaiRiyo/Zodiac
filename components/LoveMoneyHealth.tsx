@@ -83,28 +83,30 @@ const LoveMoneyHealth = () => {
     <div className="bg-white min-h-screen flex flex-col justify-between">
       <section className="relative flex-grow flex flex-col items-center">
         <div className="relative z-10 max-w-screen-xl mx-auto px-4 py-10 sm:px-6 space-y-10">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
+          <div className="grid grid-cols-3 md:grid-cols-12 gap-10">
             {/* Zodiac Signs and Legend */}
             <div className="col-span-12 md:col-span-3 space-y-8">
               {/* Legend */}
               <div className="flex flex-col items-start space-y-2 text-black">
                 <h4 className="text-lg font-bold text-gray-700">Legend</h4>
-                <div className="flex items-center gap-2">
-                  <span>⬆️</span>
-                  <span>Increase</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span>⬇️</span>
-                  <span>Decrease</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span>🟰</span>
-                  <span>No Change</span>
+                <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                  <div className="flex items-center gap-2">
+                    <span>⬆️</span>
+                    <span>Increase</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span>⬇️</span>
+                    <span>Decrease</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span>🟰</span>
+                    <span>No Change</span>
+                  </div>
                 </div>
               </div>
 
               {/* Zodiac Signs */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {Object.entries(zodiacImages as Record<ZodiacSign, string>).map(([sign, image]) => (
                   <div key={sign} className="flex items-center gap-3">
                     <img src={image} alt={sign} className="w-8 h-8 sm:w-10 sm:h-10" />
@@ -113,6 +115,7 @@ const LoveMoneyHealth = () => {
                 ))}
               </div>
             </div>
+
 
             {/* Horoscope Data */}
             <div className="col-span-12 md:col-span-9 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
