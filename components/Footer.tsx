@@ -17,14 +17,12 @@ const Footer = () => {
           <div className='p-5'>
             <div className='text-sm uppercase text-indigo-600 font-bold'> Social media </div>
             <h3 className='my-3 block'> Facebook <SocialIcon url='https://facebook.com' style={{ height: 25, width: 25 }} /> </h3>
-            <h3 className='my-3 block'> Twitter <SocialIcon url='https://twitter.com' style={{ height: 25, width: 25 }} /> </h3>
-            <h3 className='my-3 block'> Instagram <SocialIcon url='https://instagram.com' style={{ height: 25, width: 25 }} /> </h3>
           </div>
 
           <div className='p-5'>
             <div className='text-sm uppercase text-indigo-600 font-bold'> Contact us </div>
-            <Link className='my-3 block' href='/#'> XXX XXXX, Romania </Link>
-            <Link className='my-3 block' href='/#'> emailaddress@gmail.com </Link>
+            <Link className='my-3 block' href='/#'> Romania </Link>
+            <Link className='my-3 block' href='/#'> gopoty1@gmail.com </Link>
           </div>
         </div>
       </div>
