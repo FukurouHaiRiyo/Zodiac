@@ -3,7 +3,7 @@ import Features from '@/components/Features';
 import Header from '@/components/Header';
 import LoveMoneyHealth from '@/components/LoveMoneyHealth';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { database } from '@/app/libs/firebase'; 
 import { ref, set, push } from 'firebase/database';
