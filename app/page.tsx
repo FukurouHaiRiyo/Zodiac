@@ -3,9 +3,9 @@ import Features from '@/components/Features';
 import Header from '@/components/Header';
 import LoveMoneyHealth from '@/components/LoveMoneyHealth';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-import { database } from '@/app/libs/firebase'; // import your Firebase setup
+import { database } from '@/app/libs/firebase'; 
 import { ref, set, push } from 'firebase/database';
 import Footer from '@/components/Footer';
 
@@ -49,6 +49,9 @@ export default function Home() {
     // Optional: provide feedback to the user
     alert("You've successfully signed up for horoscope newsletters!");
   };
+  
+
+  
 
   return (
     <>

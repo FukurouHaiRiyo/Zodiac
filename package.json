@@ -12,6 +12,7 @@
     "@google-cloud/translate": "^8.5.0",
     "@types/nodemailer": "^6.4.17",
     "@vercel/analytics": "^1.4.1",
+    "@vercel/speed-insights": "^1.1.0",
     "@vitalets/google-translate-api": "^9.2.0",
     "axios": "^1.7.7",
     "cheerio": "^1.0.0",
