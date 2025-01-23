@@ -21,6 +21,22 @@ export default function Home() {
     'Sagetator', 'Capricorn', 'Varsator', 'Pesti'
   ]
 
+  // Mapping Romanian zodiac signs to English
+  const zodiacSignTranslations: Record<string, string> = {
+    Berbec: "Aries",
+    Taur: "Taurus",
+    Gemeni: "Gemini",
+    Rac: "Cancer",
+    Leu: "Leo",
+    Fecioara: "Virgo",
+    Balanta: "Libra",
+    Scorpion: "Scorpio",
+    Sagetator: "Sagittarius",
+    Capricorn: "Capricorn",
+    Varsator: "Aquarius",
+    Pesti: "Pisces",
+  };
+
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -31,12 +47,19 @@ export default function Home() {
 
   const saveEmailToDatabase = async (email: string, zodiacSign: string) => {
     try {
-      const emailsRef = ref(database, 'newsletter_emails');
+      const emailsRef = ref(database, "newsletter_emails");
       const newSubscriptionRef = push(emailsRef);
-      await set(newSubscriptionRef, { email, zodiacSign });
-      console.log('Email and zodiac sign saved successfully');
+
+      // Translate the zodiac sign to English before saving
+      const translatedZodiacSign = zodiacSignTranslations[zodiacSign];
+
+      await set(newSubscriptionRef, {
+        email,
+        zodiacSign: translatedZodiacSign,
+      });
+      console.log("Email and zodiac sign saved successfully");
     } catch (error) {
-      console.error('Error saving email:', error);
+      console.error("Error saving email:", error);
     }
   };
 
@@ -49,8 +72,6 @@ export default function Home() {
     // Optional: provide feedback to the user
     alert("You've successfully signed up for horoscope newsletters!");
   };
-  
-
   
 
   return (
