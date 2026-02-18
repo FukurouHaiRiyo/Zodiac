@@ -1,4 +1,4 @@
-export const apiKey = "AIzaSyBbkF7khqhgWJ5zAegFne7pWYbCMQ5NYEo";
+export const apiKey = "";
 export const authDomain = "emails-9d2a6.firebaseapp.com";
 export const databaseURL= "https://emails-9d2a6-default-rtdb.europe-west1.firebasedatabase.app";
 export const projectId= "emails-9d2a6";
