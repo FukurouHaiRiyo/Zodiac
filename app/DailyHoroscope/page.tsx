@@ -3,9 +3,7 @@
 import Header from '@/components/Header';
 import React, { useState, useEffect } from 'react';
 import translateTextMyMemory from '@/app/scripts/translateMyMemory';
-
 import { XRapidApiKey, XRapidApiHost } from '@/app/env';
-
 
 interface HoroscopeData {
   sign: string;
@@ -13,139 +11,93 @@ interface HoroscopeData {
   horoscope: string;
 }
 
-/* eslint-disable  @typescript-eslint/no-explicit-any */
 const DailyHoroscopePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
+  const [horoscopeData, setHoroscopeData] = useState<HoroscopeData[]>([]);
 
   const zodiacSigns = [
     'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
     'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces',
   ];
 
-  const [horoscopeData, setHoroscopeData] = useState<HoroscopeData[]>([]);
-
   useEffect(() => {
-  const fetchHoroscopeData = async () => {
-    try {
-      setLoading(true);
-      const resultsArray = [];
+    const fetchHoroscopeData = async () => {
+      try {
+        setLoading(true);
+        const resultsArray: HoroscopeData[] = [];
 
-      for (const sign of zodiacSigns) {
-        try {
-          // 1. Fetch using the standard browser fetch
-          const response = await fetch(
-            `https://${XRapidApiHost}/horoscope?day=today&sunsign=${sign.toLowerCase()}`,
-            {
-              method: 'GET',
-              headers: {
-                'x-rapidapi-key': XRapidApiKey,
-                'x-rapidapi-host': XRapidApiHost,
-              },
+        // We use a for...of loop to process signs one by one.
+        // This allows the 1s delay to actually work and prevent API blocking.
+        for (const sign of zodiacSigns) {
+          try {
+            // 1. Fetch from RapidAPI
+            const response = await fetch(
+              `https://${XRapidApiHost}/horoscope?day=today&sunsign=${sign.toLowerCase()}`,
+              {
+                method: 'GET',
+                headers: {
+                  'x-rapidapi-key': XRapidApiKey,
+                  'x-rapidapi-host': XRapidApiHost,
+                },
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error(`Failed to fetch ${sign}: ${response.statusText}`);
             }
-          );
 
-          if (!response.ok) {
-            throw new Error(`API Error ${response.status} for ${sign}`);
+            const result = await response.json();
+
+            // 2. Translate the horoscope text to Romanian
+            // result.data.horoscope_data is the specific field from this API
+            const translationResult = await translateTextMyMemory(
+              result.data.horoscope_data,
+              null,
+              'ro'
+            );
+
+            // 3. Handle string or array response from the translator
+            const translatedHoroscope = Array.isArray(translationResult)
+              ? translationResult.join(' ')
+              : translationResult;
+
+            console.log(`Processed: ${sign}`);
+
+            // 4. Add to our temporary array
+            resultsArray.push({
+              sign,
+              date: result.data.date,
+              horoscope: translatedHoroscope,
+            });
+
+            // 5. Rate Limit Delay: Wait 1 second before moving to the next sign
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+
+          } catch (signError) {
+            console.error(`Error processing horoscope for ${sign}:`, signError);
           }
-
-          const result = await response.json();
-
-          // 2. Translate (Romanian)
-          const translationResult = await translateTextMyMemory(
-            result.data.horoscope_data,
-            null,
-            'ro'
-          );
-
-          const translatedHoroscope = Array.isArray(translationResult)
-            ? translationResult.join(' ')
-            : translationResult;
-
-          // 3. Store Result
-          resultsArray.push({
-            sign,
-            date: result.data.date,
-            horoscope: translatedHoroscope,
-          });
-
-          // 4. Rate Limit Delay (Wait 1s before next sign)
-          await new Promise((res) => setTimeout(res, 1000));
-
-        } catch (signError) {
-          console.error(`Error processing ${sign}:`, signError);
         }
+
+        // Once all signs are done, update the state once
+        setHoroscopeData(resultsArray);
+      } catch (error) {
+        console.error('General Error fetching horoscope data:', error);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      setHoroscopeData(resultsArray);
-    } catch (error) {
-      console.error('General Error:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchHoroscopeData();
-}, [zodiacSigns]);
-
-      // Loop through signs sequentially to respect the 1s delay/rate limit
-      for (const sign of zodiacSigns) {
-        try {
-          // 1. Fetch
-          const result = await getSingleSign(sign);
-
-          // 2. Translate
-          const translationResult = await translateTextMyMemory(
-            result.data.horoscope_data,
-            null,
-            'ro'
-          );
-
-          // 3. Format Translation
-          const translatedHoroscope = Array.isArray(translationResult)
-            ? translationResult.join(' ')
-            : translationResult;
-
-          console.log(`Translated Horoscope for ${sign}:`, translatedHoroscope);
-
-          // 4. Store Result
-          resultsArray.push({
-            sign,
-            date: result.data.date,
-            horoscope: translatedHoroscope,
-          });
-
-          // 5. Wait 1 second before the next iteration (Rate Limit Protection)
-          await new Promise((res) => setTimeout(res, 1000));
-
-        } catch (signError) {
-          console.error(`Error processing sign ${sign}:`, signError);
-          // Optionally push a placeholder so the UI doesn't break
-        }
-      }
-
-      setHoroscopeData(resultsArray);
-    } catch (error) {
-      console.error('General Error in fetchHoroscopeData:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchHoroscopeData();
-}, [zodiacSigns]); // Added dependency for safety
-  
-
+    fetchHoroscopeData();
+    // Empty dependency array ensures this only runs once on mount
+  }, []); 
 
   return (
     <>
       <Header
         state={false}
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        setState={function (_: React.SetStateAction<boolean>): void {
-          throw new Error('Function not implemented.');
-        }}
+        setState={() => {}} 
       />
-      <section className="relative">
+      <section className="relative min-h-screen bg-white">
         <div className="relative z-10 max-w-screen-xl mx-auto px-4 py-20 sm:py-28 md:px-8">
           <div className="space-y-5 max-w-4xl mx-auto text-center">
             <h2 className="text-2xl sm:text-4xl font-extrabold text-black mx-auto md:text-5xl">
@@ -157,19 +109,24 @@ const DailyHoroscopePage: React.FC = () => {
           </div>
 
           {loading ? (
-            <p className="text-center mt-10 text-gray-600">Loading horoscopes...</p>
+            <div className="flex flex-col items-center mt-10">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+              <p className="mt-4 text-gray-600">Se încarcă horoscopul (traducere în curs)...</p>
+            </div>
           ) : (
             <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
               {horoscopeData.map((horoscope) => (
                 <div
                   key={horoscope.sign}
-                  className="p-4 border rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                  className="p-4 border rounded-lg shadow-md hover:shadow-lg transition-all bg-white/80 backdrop-blur-sm"
                 >
                   <h3 className="text-lg font-semibold capitalize text-gray-800">
                     {horoscope.sign}
                   </h3>
                   <p className="text-gray-500 text-xs mb-2">{horoscope.date}</p>
-                  <p className="text-gray-600 text-sm">{horoscope.horoscope}</p>
+                  <p className="text-gray-600 text-sm leading-relaxed">
+                    {horoscope.horoscope}
+                  </p>
                 </div>
               ))}
             </div>
