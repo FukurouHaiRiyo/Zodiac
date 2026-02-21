@@ -49,7 +49,7 @@ const DailyHoroscopePage: React.FC = () => {
             try {
               resolve(JSON.parse(body));
             } catch (e) {
-              reject(new Error(`Failed to parse JSON for ${sign}`));
+              reject(new Error(`Failed to parse JSON for ${sign}: ${e}`));
             }
           });
         });
