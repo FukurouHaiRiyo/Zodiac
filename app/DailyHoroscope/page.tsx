@@ -81,7 +81,7 @@ const DailyHoroscopePage: React.FC = () => {
               console.error(`Error processing horoscope for ${sign}:`, error);
               throw error;
             }
-          })
+          });
         );
   
         setHoroscopeData(data);
