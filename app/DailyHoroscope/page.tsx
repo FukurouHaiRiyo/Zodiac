@@ -36,7 +36,7 @@ const DailyHoroscopePage: React.FC = () => {
                   qs: {
                     day: 'today',
                     sunsign: {sign}
-                  }
+                  },
                   headers: {
                     'x-rapidapi-key': XRapidApiKey,
                     'x-rapidapi-host': XRapidApiHost,
