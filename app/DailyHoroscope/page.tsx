@@ -30,9 +30,13 @@ const DailyHoroscopePage: React.FC = () => {
           zodiacSigns.map(async (sign) => {
             try {
               const response = await fetch(
-                `https://${XRapidApiHost}/get-horoscope/daily?sign=${sign}&day=today`,
+                `https://${XRapidApiHost}/horoscope`,
                 {
                   method: 'GET',
+                  qs: {
+                    day: 'today',
+                    sunsign: {sign}
+                  }
                   headers: {
                     'x-rapidapi-key': XRapidApiKey,
                     'x-rapidapi-host': XRapidApiHost,
