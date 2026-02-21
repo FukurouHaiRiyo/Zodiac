@@ -13,6 +13,7 @@ interface HoroscopeData {
   horoscope: string;
 }
 
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 const DailyHoroscopePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -29,6 +30,7 @@ const DailyHoroscopePage: React.FC = () => {
       const resultsArray = [];
 
       // Helper function to wrap the legacy request call
+      /* eslint-disable  @typescript-eslint/no-explicit-any */
       const getSingleSign = (sign: any) => {
         return new Promise((resolve, reject) => {
           const options = {
