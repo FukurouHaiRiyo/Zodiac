@@ -33,7 +33,7 @@ const DailyHoroscopePage: React.FC = () => {
                 `https://${XRapidApiHost}/horoscope`,
                 {
                   method: 'GET',
-                  qs: {
+                  params: {
                     day: 'today',
                     sunsign: {sign}
                   },
