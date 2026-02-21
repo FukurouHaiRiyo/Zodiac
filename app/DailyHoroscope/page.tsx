@@ -26,52 +26,57 @@ const DailyHoroscopePage: React.FC = () => {
   useEffect(() => {
     const fetchHoroscopeData = async () => {
       try {
-        const data: HoroscopeData[] = await Promise.all(
-          zodiacSigns.map(async (sign) => {
-            try {
-              const response = await fetch(
-                `https://${XRapidApiHost}/horoscope`,
-                {
-                  method: 'GET',
-                  params: {
-                    day: 'today',
-                    sunsign: {sign}
-                  },
-                  headers: {
-                    'x-rapidapi-key': XRapidApiKey,
-                    'x-rapidapi-host': XRapidApiHost,
-                  },
+       const fetchHoroscope = (sign) => {
+          return new Promise((resolve, reject) => {
+              const options = {
+                method: 'GET',
+                url: 'https://horoscope-astrology.p.rapidapi.com/horoscope',
+                qs: {
+                  day: 'today',
+                  sunsign: sign.toLowerCase() // Ensure lowercase for the API
+                },
+                headers: {
+                  'x-rapidapi-key': XRapidApiKey, // Use your actual key here
+                  'x-rapidapi-host': XRapidApiHost
                 }
-              );
-  
-              if (!response.ok) {
-                throw new Error(`Failed to fetch horoscope for ${sign}: ${response.statusText}`);
-              }
-  
-              const result = await response.json();
-  
-              // Translate the horoscope text
-              const translationResult = await translateTextMyMemory(
-                result.data.horoscope_data,
-                null,
-                'ro' // Target language (Romanian)
-              );
-  
-              // Handle both single and array responses from translateTextMyMemory
-              const translatedHoroscope = Array.isArray(translationResult)
-                ? translationResult.join(' ')
-                : translationResult;
-  
-              console.log(`Translated Horoscope for ${sign}:`, translatedHoroscope);
-  
-              // Simulate delay to avoid hitting rate limits
-              await new Promise((resolve) => setTimeout(resolve, 1000));
-  
-              return {
-                sign,
-                date: result.data.date,
-                horoscope: translatedHoroscope,
               };
+          
+              request(options, (error, response, body) => {
+                if (error) return reject(error);
+                if (response.statusCode !== 200) {
+                  return reject(new Error(`Failed for ${sign}: ${response.statusCode}`));
+                }
+                resolve(JSON.parse(body));
+              });
+            });
+          };
+  
+              // 2. Parse JSON
+        const result = JSON.parse(body);
+
+        // 3. Translate the horoscope text (Romanian)
+        const translationResult = await translateTextMyMemory(
+          result.data.horoscope_data,
+          null,
+          'ro'
+        );
+
+        // 4. Handle string vs array translation response
+        const translatedHoroscope = Array.isArray(translationResult)
+          ? translationResult.join(' ')
+          : translationResult;
+
+        console.log(`Translated Horoscope for ${sign}:`, translatedHoroscope);
+
+        // 5. Simulate delay (1000ms) to avoid rate limits
+        await new Promise((res) => setTimeout(res, 1000));
+
+        // 6. Return the structured data
+        resolve({
+          sign,
+          date: result.data.date,
+          horoscope: translatedHoroscope,
+        });
             } catch (error) {
               console.error(`Error processing horoscope for ${sign}:`, error);
               throw error;
