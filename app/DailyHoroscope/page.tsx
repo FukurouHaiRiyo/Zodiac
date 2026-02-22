@@ -129,7 +129,7 @@ const DailyHoroscopePage: React.FC = () => {
                   </div>
                   <p className="text-gray-400 text-xs mb-4 font-mono">{item.date}</p>
                   <p className="text-gray-600 text-sm leading-relaxed italic">
-                    "{item.horoscope}"
+                    {item.horoscope}
                   </p>
                 </div>
               ))}
