@@ -5,8 +5,8 @@ import LoveMoneyHealth from '@/components/LoveMoneyHealth';
 
 import { useState } from 'react';
 
-import { database } from '@/app/libs/firebase'; 
-import { ref, set, push } from 'firebase/database';
+// import { database } from '@/app/libs/firebase'; 
+// import { ref, set, push } from 'firebase/database';
 import Footer from '@/components/Footer';
 
 export default function Home() {
@@ -45,29 +45,29 @@ export default function Home() {
     setZodiacSign(e.target.value);
   }
 
-  const saveEmailToDatabase = async (email: string, zodiacSign: string) => {
-    try {
-      const emailsRef = ref(database, "newsletter_emails");
-      const newSubscriptionRef = push(emailsRef);
+  // const saveEmailToDatabase = async (email: string, zodiacSign: string) => {
+  //   try {
+  //     const emailsRef = ref(database, "newsletter_emails");
+  //     const newSubscriptionRef = push(emailsRef);
 
-      // Translate the zodiac sign to English before saving
-      const translatedZodiacSign = zodiacSignTranslations[zodiacSign];
+  //     // Translate the zodiac sign to English before saving
+  //     const translatedZodiacSign = zodiacSignTranslations[zodiacSign];
 
-      await set(newSubscriptionRef, {
-        email,
-        zodiacSign: translatedZodiacSign,
-      });
-      console.log("Email and zodiac sign saved successfully");
-    } catch (error) {
-      console.error("Error saving email:", error);
-    }
-  };
+  //     await set(newSubscriptionRef, {
+  //       email,
+  //       zodiacSign: translatedZodiacSign,
+  //     });
+  //     console.log("Email and zodiac sign saved successfully");
+  //   } catch (error) {
+  //     console.error("Error saving email:", error);
+  //   }
+  // };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Send the email to the database
-    await saveEmailToDatabase(email, zodiacSign);
+    // await saveEmailToDatabase(email, zodiacSign);
 
     // Optional: provide feedback to the user
     alert("You've successfully signed up for horoscope newsletters!");
