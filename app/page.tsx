@@ -22,20 +22,20 @@ export default function Home() {
   ]
 
   // Mapping Romanian zodiac signs to English
-  const zodiacSignTranslations: Record<string, string> = {
-    Berbec: "Aries",
-    Taur: "Taurus",
-    Gemeni: "Gemini",
-    Rac: "Cancer",
-    Leu: "Leo",
-    Fecioara: "Virgo",
-    Balanta: "Libra",
-    Scorpion: "Scorpio",
-    Sagetator: "Sagittarius",
-    Capricorn: "Capricorn",
-    Varsator: "Aquarius",
-    Pesti: "Pisces",
-  };
+  // const zodiacSignTranslations: Record<string, string> = {
+  //   Berbec: "Aries",
+  //   Taur: "Taurus",
+  //   Gemeni: "Gemini",
+  //   Rac: "Cancer",
+  //   Leu: "Leo",
+  //   Fecioara: "Virgo",
+  //   Balanta: "Libra",
+  //   Scorpion: "Scorpio",
+  //   Sagetator: "Sagittarius",
+  //   Capricorn: "Capricorn",
+  //   Varsator: "Aquarius",
+  //   Pesti: "Pisces",
+  // };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
