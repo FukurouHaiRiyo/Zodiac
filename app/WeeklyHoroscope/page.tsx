@@ -3,137 +3,130 @@
 import Header from '@/components/Header';
 import React, { useState, useEffect } from 'react';
 import translateTextMyMemory from '@/app/scripts/translateMyMemory';
-
 import { XRapidApiKey, XRapidApiHost } from '@/app/env';
 
-interface HoroscopeData {
-  sign: string;
+interface PhraseData {
   date: string;
-  horoscope: string;
+  phrase: string;
 }
 
-const DailyHoroscopePage: React.FC = () => {
+const WeeklyHoroscopePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
-
-  const zodiacSigns = [
-    'aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo',
-    'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces',
-  ];
-
-  const [horoscopeData, setHoroscopeData] = useState<HoroscopeData[]>([]);
-
-  // Function to limit text to 999 characters
-  const limitTextLength = (text: string, maxLength = 500): string => {
-    return text.length > maxLength ? text.slice(0, maxLength) : text;
-  };
+  const [phraseData, setPhraseData] = useState<PhraseData | null>(null);
 
   useEffect(() => {
-    const fetchHoroscopeData = async () => {
+    const fetchDailyPhrase = async () => {
       try {
-        const data: HoroscopeData[] = await Promise.all(
-          zodiacSigns.map(async (sign) => {
-            try {
-              const response = await fetch(
-                `https://${XRapidApiHost}/get-horoscope/weekly?sign=${sign}`,
-                {
-                  method: 'GET',
-                  headers: {
-                    'x-rapidapi-key': XRapidApiKey,
-                    'x-rapidapi-host': XRapidApiHost,
-                  },
-                }
-              );
-  
-              if (!response.ok) {
-                throw new Error(`Failed to fetch weekly horoscope for ${sign}: ${response.statusText}`);
-              }
-  
-              const result = await response.json();
-  
-              // Limit the length of the horoscope text
-              const limitedHoroscope = limitTextLength(result.data.horoscope_data);
-  
-              // Translate the limited horoscope text
-              const translationResult = await translateTextMyMemory(
-                limitedHoroscope,
-                'en', // Source language (English)
-                'ro'  // Target language (Romanian)
-              );
-  
-              // Handle both single and array responses from translateTextMyMemory
-              const translatedHoroscope = Array.isArray(translationResult)
-                ? translationResult.join(' ')
-                : translationResult;
-  
-              console.log(`Translated Weekly Horoscope for ${sign}:`, translatedHoroscope);
-  
-              // Simulate delay to avoid hitting rate limits
-              await new Promise((resolve) => setTimeout(resolve, 1000));
-  
-              return {
-                sign,
-                date: result.data.date,
-                horoscope: translatedHoroscope,
-              };
-            } catch (error) {
-              console.error(`Error processing weekly horoscope for ${sign}:`, error);
-              throw error;
-            }
-          })
+        setLoading(true);
+
+        const response = await fetch(
+          `https://${XRapidApiHost}/dailyphrase`,
+          {
+            method: 'GET',
+            headers: {
+              'x-rapidapi-key': XRapidApiKey,
+              'x-rapidapi-host': XRapidApiHost,
+              'Content-Type': 'application/json'
+            },
+          }
         );
-  
-        setHoroscopeData(data);
+
+        if (!response.ok) {
+          throw new Error(`Failed to fetch daily phrase: ${response.statusText}`);
+        }
+
+        const result = await response.json();
+
+        // Extract the phrase depending on the API's specific response structure
+        const rawText = 
+          result.phrase || 
+          result.daily || 
+          result.message || 
+          result.data?.phrase ||
+          "Nu am putut descifra fraza zilei astăzi.";
+
+        // Translate the phrase to Romanian
+        const translationResult = await translateTextMyMemory(
+          rawText,
+          'en',
+          'ro'
+        );
+
+        const translatedPhrase = Array.isArray(translationResult)
+          ? translationResult.join(' ')
+          : translationResult;
+
+        setPhraseData({
+          date: result.date || new Date().toLocaleDateString('ro-RO'),
+          phrase: translatedPhrase,
+        });
+
       } catch (error) {
-        console.error('Error fetching or translating weekly horoscope data:', error);
+        console.error('Error fetching daily phrase:', error);
       } finally {
         setLoading(false);
       }
     };
-  
-    fetchHoroscopeData();
+
+    fetchDailyPhrase();
   }, []);
-  
 
   return (
     <>
       <Header
         state={false}
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        setState={function (_: React.SetStateAction<boolean>): void {
-          throw new Error('Function not implemented.');
-        }}
+        setState={() => {}} 
       />
-      <section className="relative">
-        <div className="relative z-10 max-w-screen-xl mx-auto px-4 py-28 md:px-8">
+      
+      <section className="relative min-h-screen bg-gray-50 flex flex-col items-center">
+        <div className="relative z-10 w-full max-w-screen-xl mx-auto px-4 py-20 sm:py-28 md:px-8">
+          
+          {/* Header Section */}
           <div className="space-y-5 max-w-4xl mx-auto text-center">
-            <h2 className="text-4xl text-black font-extrabold mx-auto md:text-5xl">
-              Horoscop săptămânal pentru toate zodiile 🌌✨
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-gray-900 tracking-tight">
+              Fraza Zilei 💬✨
             </h2>
-            <p className="max-w-2xl mx-auto text-gray-600">
-              Descoperiți îndrumările cosmice săptămânale pentru fiecare semn zodiacal.
+            <p className="max-w-2xl mx-auto text-gray-600 text-lg">
+              Gândul tău astrologic inspirațional pentru astăzi.
             </p>
           </div>
+
           {loading ? (
-            <p>Loading horoscopes...</p>
+            /* Loading State */
+            <div className="flex flex-col items-center mt-20">
+              <div className="w-16 h-16 border-4 border-t-rose-500 border-gray-200 rounded-full animate-spin"></div>
+              <p className="mt-6 text-gray-500 font-medium italic">Preluăm înțelepciunea astrelor...</p>
+            </div>
+          ) : phraseData ? (
+            /* Single Card Result */
+            <div className="mt-16 max-w-2xl mx-auto">
+              <div className="group relative bg-white p-8 sm:p-10 rounded-3xl border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 text-center">
+                
+                <span className="inline-block text-[12px] font-bold text-rose-600 bg-rose-50 px-3 py-1 rounded-full uppercase tracking-wider mb-6">
+                  Inspirație Zilnică
+                </span>
+                
+                <p className="text-gray-400 text-sm mb-6 font-mono">{phraseData.date}</p>
+                
+                <blockquote className="text-xl sm:text-2xl text-gray-800 leading-relaxed font-serif italic relative">
+                  <span className="text-4xl text-rose-300 absolute -top-4 -left-4">"</span>
+                  {phraseData.phrase}
+                  <span className="text-4xl text-rose-300 absolute -bottom-4 -right-2">"</span>
+                </blockquote>
+              </div>
+            </div>
           ) : (
-            <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {horoscopeData.map((horoscope) => (
-                <div key={horoscope.sign} className="p-4 border rounded-lg shadow-lg">
-                  <h3 className="text-lg font-semibold capitalize text-gray-800">{horoscope.sign}</h3>
-                  <p className="text-gray-500 text-xs mb-2">{horoscope.date}</p>
-                  <p className="text-gray-600 text-sm">{horoscope.horoscope}</p>
-                </div>
-              ))}
+            <div className="mt-16 text-center text-gray-500">
+              Nu a putut fi încărcată nicio frază. Încercați din nou mai târziu.
             </div>
           )}
         </div>
 
-        {/* Background Gradient */}
+        {/* Thematic Background Blur */}
         <div
-          className="absolute inset-0 m-auto max-w-xs h-[357px] blur-[118px] sm:max-w-md md:max-w-lg"
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[600px] opacity-20 blur-[130px] pointer-events-none"
           style={{
-            background:
-              'linear-gradient(106.89deg, rgba(192, 132, 252, 0.11) 15.73%, rgba(14, 165, 233, 0.41) 15.74%, rgba(232, 121, 249, 0.26) 56.49%, rgba(79, 70, 229, 0.4) 115.91%)',
+            background: 'radial-gradient(circle, rgba(244,63,94,0.4) 0%, rgba(251,146,60,0.3) 50%, rgba(236,72,153,0.1) 100%)',
           }}
         ></div>
       </section>
@@ -141,4 +134,4 @@ const DailyHoroscopePage: React.FC = () => {
   );
 };
 
-export default DailyHoroscopePage;
+export default WeeklyHoroscopePage;

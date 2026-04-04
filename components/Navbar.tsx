@@ -9,7 +9,7 @@ interface NavbarProps {
 const navigation = [
   { title: 'Acasă', path: '/' },
   { title: 'Horoscopul de azi', path: '/DailyHoroscope' },
-  { title: 'Horoscop săptămânal', path: '/WeeklyHoroscope' },
+  { title: 'Fraza zilei', path: '/WeeklyHoroscope' },
   { title: 'Horoscopul lunar', path: '/MonthlyHoroscope' },
   { title: 'Despre noi', path: '/AboutUs'}
 ];
