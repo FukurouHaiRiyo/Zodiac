@@ -1,17 +1,17 @@
-import { initializeApp } from 'firebase/app';
-import { getDatabase } from 'firebase/database';
-import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId, appId, measurementId } from '@/app/env';
+// import { initializeApp } from 'firebase/app';
+// import { getDatabase } from 'firebase/database';
+// import { apiKey, authDomain, databaseURL, projectId, storageBucket, messagingSenderId, appId, measurementId } from '@/app/env';
 
-const firebaseConfig = {
-  apiKey: apiKey,
-  authDomain: authDomain,
-  databaseURL: databaseURL,
-  projectId: projectId,
-  storageBucket: storageBucket,
-  messagingSenderId: messagingSenderId,
-  appId: appId,
-  measurementId: measurementId
-};
+// const firebaseConfig = {
+//   apiKey: apiKey,
+//   authDomain: authDomain,
+//   databaseURL: databaseURL,
+//   projectId: projectId,
+//   storageBucket: storageBucket,
+//   messagingSenderId: messagingSenderId,
+//   appId: appId,
+//   measurementId: measurementId
+// };
 
-const app = initializeApp(firebaseConfig);
-export const database = getDatabase(app);
+// const app = initializeApp(firebaseConfig);
+// export const database = getDatabase(app);
